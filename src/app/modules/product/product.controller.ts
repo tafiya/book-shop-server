@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { productServices } from './product.service';
 import productValidationSchema from './product.validation';
+
 // create a book
 const createBook = async (req: Request, res: Response) => {
   try {
@@ -13,10 +14,10 @@ const createBook = async (req: Request, res: Response) => {
       message: 'Book created successfully',
       data: result,
     });
-  } catch (err: any) {
+  } catch (err) {
     res.status(500).json({
       success: false,
-      message: err.message || 'Books is not created successfully',
+      message: 'Books is not created successfully',
       data: err,
     });
   }
@@ -30,10 +31,10 @@ const getAllBooks = async (req: Request, res: Response) => {
       message: 'Books retrieved successfully',
       data: result,
     });
-  } catch (err: any) {
+  } catch (err) {
     res.status(500).json({
       success: false,
-      message: err.message || 'Books is not retrieved successfully',
+      message: 'Books is not retrieved successfully',
       data: err,
     });
   }
@@ -48,11 +49,11 @@ const getSpecificBooks = async (req: Request, res: Response) => {
       message: 'Book retrieved successfully',
       data: result,
     });
-  } catch (err: any) {
+  } catch (error) {
     res.status(500).json({
       success: false,
-      message: err.message || 'Book is not retrieved successfully',
-      data: err,
+      message: 'Book is not retrieved successfully',
+      data: error,
     });
   }
 };
@@ -70,10 +71,10 @@ const updateBook = async (req: Request, res: Response) => {
       message: 'Book updated successfully',
       data: result,
     });
-  } catch (err: any) {
+  } catch (err) {
     res.status(500).json({
       success: false,
-      message: err.message || 'Book is not updated successfully',
+      message: 'Book is not updated successfully',
       data: err,
     });
   }
@@ -83,16 +84,16 @@ const deleteBook = async (req: Request, res: Response) => {
   try {
     const { productId } = req.params;
 
-    const result = await productServices.deleteSpecificBookFromDB(productId);
+    await productServices.deleteSpecificBookFromDB(productId);
     res.status(200).json({
       success: true,
       message: 'Book deleted successfully',
       data: {},
     });
-  } catch (err: any) {
+  } catch (err) {
     res.status(500).json({
       success: false,
-      message: err.message || 'Book is not deleted successfully',
+      message: 'Book is not deleted successfully',
       data: err,
     });
   }

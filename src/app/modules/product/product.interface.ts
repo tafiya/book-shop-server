@@ -5,6 +5,5 @@ export type TProduct = {
   category: 'Fiction' | 'Science' | 'SelfDevelopment' | 'Poetry' | 'Religious';
   description: string;
   quantity: number;
-  inStock: Boolean;
-  // isDeleted: boolean;
+  inStock: boolean;
 };

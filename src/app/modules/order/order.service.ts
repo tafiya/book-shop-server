@@ -10,15 +10,11 @@ const orderBookFromDB = async (
   const book = await Product.findById(product);
   // Explicit null check for the product
   if (book === null) {
-    const error = new Error('Product not found');
-    (error as any).statusCode = 404;
-    throw error;
+    throw new Error('Product not found');
   }
   // Check if there is enough stock
   if (book.quantity < quantity) {
-    const error = new Error('Insufficient stock for this product');
-    (error as any).statusCode = 400;
-    throw error;
+    throw new Error('Insufficient stock for this product');
   }
 
   // Calculate total price

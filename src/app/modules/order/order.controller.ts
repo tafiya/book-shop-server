@@ -17,10 +17,10 @@ const orderBook = async (req: Request, res: Response) => {
       message: 'Order placed successfully',
       data: result,
     });
-  } catch (err: any) {
+  } catch (err) {
     res.status(500).json({
       success: false,
-      message: err.message || 'Failed to place the order',
+      message: 'Failed to place the order',
     });
   }
 };
@@ -33,10 +33,10 @@ const getAllOrder = async (req: Request, res: Response) => {
       message: 'All Orders retrieved successfully',
       data: result,
     });
-  } catch (err: any) {
+  } catch (err) {
     res.status(500).json({
       success: false,
-      message: err.message || 'All Orders is not retrieved successfully',
+      message: 'All Orders is not retrieved successfully',
       data: err,
     });
   }
@@ -51,10 +51,10 @@ const totalRevenue = async (req: Request, res: Response) => {
       message: 'Revenue calculated successfully',
       data: { totalRevenue },
     });
-  } catch (err: any) {
+  } catch (err) {
     res.status(500).json({
       success: false,
-      message: err.message || 'Books is not retrieved successfully',
+      message: 'Books is not retrieved successfully',
       data: err,
     });
   }
