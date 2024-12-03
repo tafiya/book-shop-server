@@ -1,10 +1,13 @@
 import { Request, Response } from 'express';
 import { orderServices } from './order.service';
+import { orderValidationSchema } from './order.validation';
 
 // order a book
 const orderBook = async (req: Request, res: Response) => {
   try {
-    const { email, product, quantity } = req.body;
+    const validatedData = orderValidationSchema.parse(req.body);
+    const { email, product, quantity } = validatedData;
+
     const result = await orderServices.orderBookFromDB(
       email,
       product,
@@ -21,6 +24,7 @@ const orderBook = async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       message: 'Failed to place the order',
+      data: err,
     });
   }
 };
