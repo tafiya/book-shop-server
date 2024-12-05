@@ -6,8 +6,17 @@ const createBookIntoDb = async (productData: TProduct) => {
   const result = await product.save();
   return result.toObject();
 };
-const getAllBooksFromDB = async () => {
-  const result = await Product.find();
+const getAllBooksFromDB = async (searchTerm?: string) => {
+  const query: Record<string, unknown> = {};
+  if (searchTerm) {
+    const searchRegex = new RegExp(searchTerm, 'i'); // Case-insensitive search
+    query.$or = [
+      { title: searchRegex },
+      { author: searchRegex },
+      { category: searchRegex },
+    ];
+  }
+  const result = await Product.find(query);
   return result;
 };
 const getSpecificBookFromDB = async (productId: string) => {

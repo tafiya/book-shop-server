@@ -5,7 +5,7 @@ import productValidationSchema from './product.validation';
 // create a book
 const createBook = async (req: Request, res: Response) => {
   try {
-    const { product: productData } = req.body;
+    const productData = req.body;
     // zod validator
     const zodParseData = productValidationSchema.parse(productData);
     const result = await productServices.createBookIntoDb(zodParseData);
@@ -18,14 +18,18 @@ const createBook = async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       message: 'Books is not created successfully',
-      data: err,
+      error: err,
     });
   }
 };
 // get all books
 const getAllBooks = async (req: Request, res: Response) => {
   try {
-    const result = await productServices.getAllBooksFromDB();
+    const { searchTerm } = req.query as { searchTerm?: string };
+
+    // Call service to get books from the database
+    // const books = await productService.getAllBooksFromDB(searchTerm);
+    const result = await productServices.getAllBooksFromDB(searchTerm);
     res.status(200).json({
       success: true,
       message: 'Books retrieved successfully',

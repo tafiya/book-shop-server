@@ -17,21 +17,6 @@ const getAController = (req: Request, res: Response) => {
     message: 'get the data',
   });
 };
-app.post('/api/products', (req: Request, res: Response) => {
-  res.json({
-    message: 'product data the data',
-  });
-});
-app.post('/api/orders', (req: Request, res: Response) => {
-  res.json({
-    message: 'order placed',
-  });
-});
 app.get('/', getAController);
-app.post('/', (req: Request, res: Response) => {
-  res.json({
-    message: 'got the data',
-  });
-});
 
 export default app;

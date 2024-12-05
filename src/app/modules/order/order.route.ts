@@ -3,7 +3,7 @@ import { orderControllers } from './order.controller';
 
 const router = express.Router();
 // order a book
-router.post('/create-order', orderControllers.orderBook);
+router.post('/', orderControllers.orderBook);
 // get all the order
 router.get('/', orderControllers.getAllOrder);
 // count the total revenue

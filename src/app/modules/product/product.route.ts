@@ -3,7 +3,7 @@ import { productControllers } from './product.controller';
 
 const router = express.Router();
 // Create a Book
-router.post('/create-product', productControllers.createBook);
+router.post('/', productControllers.createBook);
 //  Get all Book
 router.get('/', productControllers.getAllBooks);
 //  Get a Specific Book
