@@ -8,7 +8,7 @@ const express_1 = __importDefault(require("express"));
 const order_controller_1 = require("./order.controller");
 const router = express_1.default.Router();
 // order a book
-router.post('/create-order', order_controller_1.orderControllers.orderBook);
+router.post('/', order_controller_1.orderControllers.orderBook);
 // get all the order
 router.get('/', order_controller_1.orderControllers.getAllOrder);
 // count the total revenue

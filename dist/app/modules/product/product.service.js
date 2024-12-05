@@ -16,8 +16,17 @@ const createBookIntoDb = (productData) => __awaiter(void 0, void 0, void 0, func
     const result = yield product.save();
     return result.toObject();
 });
-const getAllBooksFromDB = () => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield product_model_1.Product.find();
+const getAllBooksFromDB = (searchTerm) => __awaiter(void 0, void 0, void 0, function* () {
+    const query = {};
+    if (searchTerm) {
+        const searchRegex = new RegExp(searchTerm, 'i'); // Case-insensitive search
+        query.$or = [
+            { title: searchRegex },
+            { author: searchRegex },
+            { category: searchRegex },
+        ];
+    }
+    const result = yield product_model_1.Product.find(query);
     return result;
 });
 const getSpecificBookFromDB = (productId) => __awaiter(void 0, void 0, void 0, function* () {

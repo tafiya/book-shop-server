@@ -7,7 +7,6 @@ const orderBook = async (req: Request, res: Response) => {
   try {
     const validatedData = orderValidationSchema.parse(req.body);
     const { email, product, quantity } = validatedData;
-
     const result = await orderServices.orderBookFromDB(
       email,
       product,

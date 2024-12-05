@@ -11,10 +11,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.orderControllers = void 0;
 const order_service_1 = require("./order.service");
+const order_validation_1 = require("./order.validation");
 // order a book
 const orderBook = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { email, product, quantity } = req.body;
+        const validatedData = order_validation_1.orderValidationSchema.parse(req.body);
+        const { email, product, quantity } = validatedData;
         const result = yield order_service_1.orderServices.orderBookFromDB(email, product, quantity);
         // Return success response
         res.status(201).json({
@@ -27,6 +29,7 @@ const orderBook = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         res.status(500).json({
             success: false,
             message: 'Failed to place the order',
+            data: err,
         });
     }
 });

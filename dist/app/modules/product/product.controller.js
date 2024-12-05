@@ -18,7 +18,7 @@ const product_validation_1 = __importDefault(require("./product.validation"));
 // create a book
 const createBook = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { product: productData } = req.body;
+        const productData = req.body;
         // zod validator
         const zodParseData = product_validation_1.default.parse(productData);
         const result = yield product_service_1.productServices.createBookIntoDb(zodParseData);
@@ -32,14 +32,17 @@ const createBook = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         res.status(500).json({
             success: false,
             message: 'Books is not created successfully',
-            data: err,
+            error: err,
         });
     }
 });
 // get all books
 const getAllBooks = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield product_service_1.productServices.getAllBooksFromDB();
+        const { searchTerm } = req.query;
+        // Call service to get books from the database
+        // const books = await productService.getAllBooksFromDB(searchTerm);
+        const result = yield product_service_1.productServices.getAllBooksFromDB(searchTerm);
         res.status(200).json({
             success: true,
             message: 'Books retrieved successfully',
