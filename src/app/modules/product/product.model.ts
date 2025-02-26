@@ -3,9 +3,9 @@ import { TProduct } from './product.interface';
 
 const productSchema = new Schema<TProduct>(
   {
-    title: { type: String, trim: true, required: true, unique: true },
-    author: { type: String, trim: true, required: true },
-    price: { type: Number, trim: true, required: true },
+    title: { type: String, trim: true },
+    author: { type: String, trim: true },
+    price: { type: Number, trim: true },
     category: {
       type: String,
       trim: true,
@@ -20,11 +20,28 @@ const productSchema = new Schema<TProduct>(
         message: '{values} is not supported',
       },
     },
-    description: { type: String, trim: true, required: true },
-    quantity: { type: Number, trim: true, required: true },
-    inStock: { type: Boolean, default: false },
+    imgURL: { type: String, default: '' },
+    description: { type: String, trim: true },
+    quantity: { type: Number, trim: true },
+    inStock: { type: Boolean, default: true },
+    isDeleted: { type: Boolean, default: false },
   },
   { timestamps: true },
 );
 
+// middle ware for delate
+// this middleware is used to hide the deleted data from showing main data
+productSchema.pre('find', function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+// this middleware is used to hide the deleted data from searching individual
+productSchema.pre('findOne', function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+productSchema.pre('findOneAndUpdate', function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
 export const Product = model<TProduct>('Product', productSchema);

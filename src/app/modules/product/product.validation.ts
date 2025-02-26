@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 // Zod schema for product validation
-export const productValidationSchema = z.object({
+export const createProductValidationSchema = z.object({
   title: z
     .string()
     .trim()
@@ -28,8 +28,11 @@ export const productValidationSchema = z.object({
     .number()
     .min(1, { message: 'Quantity must be at least 1' })
     .max(10000, { message: 'Quantity cannot exceed 10,000' }),
-  inStock: z.boolean(), // Optional since it has a default value
+  imgURL: z.string().optional(),
+  inStock: z.boolean(),
+  isDeleted: z.boolean().optional().default(false),
+  // Optional since it has a default value
 });
 
 // TypeScript inference for the validated schema
-export default productValidationSchema;
+export const productValidationSchema = { createProductValidationSchema };
