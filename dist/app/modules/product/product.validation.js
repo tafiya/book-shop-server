@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.productValidationSchema = void 0;
+exports.productValidationSchema = exports.createProductValidationSchema = void 0;
 const zod_1 = require("zod");
 // Zod schema for product validation
-exports.productValidationSchema = zod_1.z.object({
+exports.createProductValidationSchema = zod_1.z.object({
     title: zod_1.z
         .string()
         .trim()
@@ -27,7 +27,10 @@ exports.productValidationSchema = zod_1.z.object({
         .number()
         .min(1, { message: 'Quantity must be at least 1' })
         .max(10000, { message: 'Quantity cannot exceed 10,000' }),
-    inStock: zod_1.z.boolean(), // Optional since it has a default value
+    imgURL: zod_1.z.string().optional(),
+    inStock: zod_1.z.boolean(),
+    isDeleted: zod_1.z.boolean().optional().default(false),
+    // Optional since it has a default value
 });
 // TypeScript inference for the validated schema
-exports.default = exports.productValidationSchema;
+exports.productValidationSchema = { createProductValidationSchema: exports.createProductValidationSchema };

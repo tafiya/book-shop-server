@@ -8,49 +8,66 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.orderControllers = void 0;
+const http_status_codes_1 = require("http-status-codes");
+const AppError_1 = __importDefault(require("../../errors/AppError"));
+const catchAsync_1 = require("../../utils/catchAsync");
+const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
 const order_service_1 = require("./order.service");
-const order_validation_1 = require("./order.validation");
 // order a book
-const orderBook = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const validatedData = order_validation_1.orderValidationSchema.parse(req.body);
-        const { email, product, quantity } = validatedData;
-        const result = yield order_service_1.orderServices.orderBookFromDB(email, product, quantity);
-        // Return success response
-        res.status(201).json({
-            success: true,
-            message: 'Order placed successfully',
-            data: result,
-        });
-    }
-    catch (err) {
-        res.status(500).json({
-            success: false,
-            message: 'Failed to place the order',
-            data: err,
-        });
-    }
-});
+const orderBook = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = req.user;
+    const order = yield order_service_1.orderServices.createOrder(user, req.body, req.ip);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_codes_1.StatusCodes.CREATED,
+        message: 'Order placed successfully',
+        data: order,
+    });
+}));
 // get all the orders detail
-const getAllOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const result = yield order_service_1.orderServices.getAllOrderFromDb();
-        res.status(200).json({
-            success: true,
-            message: 'All Orders retrieved successfully',
-            data: result,
-        });
-    }
-    catch (err) {
-        res.status(500).json({
-            success: false,
-            message: 'All Orders is not retrieved successfully',
-            data: err,
-        });
-    }
-});
+const getAllOrder = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const payload = req.params;
+    const result = yield order_service_1.orderServices.getAllOrderFromDb(payload);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_codes_1.StatusCodes.CREATED,
+        message: 'Order placed successfully',
+        data: result,
+    });
+}));
+// update order
+const updateOrder = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { orderId } = req.params;
+    const result = yield order_service_1.orderServices.updateOrderIntoDB(orderId, req.body);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_codes_1.StatusCodes.OK,
+        success: true,
+        message: 'Order updated successfully',
+        data: result,
+    });
+}));
+const deleteOrder = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { orderId } = req.params;
+    const result = yield order_service_1.orderServices.deleteOrderFromDB(orderId);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_codes_1.StatusCodes.OK,
+        success: true,
+        message: 'Order is deleted successfully',
+        data: result,
+    });
+}));
+// verify payment
+const verifyPayment = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const order = yield order_service_1.orderServices.verifyPayment(req.query.order_id);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_codes_1.StatusCodes.CREATED,
+        message: 'Order verified successfully',
+        data: order,
+    });
+}));
 // count total revenue
 const totalRevenue = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -69,8 +86,42 @@ const totalRevenue = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         });
     }
 });
+const getMyOrder = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a, _b;
+    //console.log(req.user);
+    const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.id; // ✅ Extract logged-in user ID
+    const role = (_b = req.user) === null || _b === void 0 ? void 0 : _b.role; // ✅ Extract user role
+    if (!userId) {
+        throw new AppError_1.default(http_status_codes_1.StatusCodes.UNAUTHORIZED, 'User no found');
+    }
+    const result = yield order_service_1.orderServices.getMyOrder(userId, role);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_codes_1.StatusCodes.OK,
+        success: true,
+        message: 'Order retrieved successfully',
+        data: result,
+    });
+}));
+const updateOrderStatus = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { orderId } = req.params;
+    const { status } = req.body;
+    const result = yield order_service_1.orderServices.updateOrderIntoDB(orderId, {
+        status,
+    });
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_codes_1.StatusCodes.OK,
+        success: true,
+        message: 'Order status updated successfully',
+        data: result,
+    });
+}));
 exports.orderControllers = {
     orderBook,
     getAllOrder,
     totalRevenue,
+    verifyPayment,
+    updateOrder,
+    deleteOrder,
+    getMyOrder,
+    updateOrderStatus,
 };
