@@ -18,36 +18,10 @@ const QueryBuilder_1 = __importDefault(require("../../builder/QueryBuilder"));
 const AppError_1 = __importDefault(require("../../errors/AppError"));
 const product_constant_1 = require("./product.constant");
 const product_model_1 = require("./product.model");
-// const createBookIntoDb = async (productData: TProduct) => {
-//   const product = new Product(productData);
-//   const result = await product.save();
-//   return result.toObject();
-// };
 const createBookIntoDb = (payload) => __awaiter(void 0, void 0, void 0, function* () {
-    // const user = await User.isUserExistsByCustomId(userData.email);
-    // if (user.isBlocked) {
-    //   throw new AppError(
-    //     StatusCodes.UNAUTHORIZED,
-    //     'You are not authorized to create Book',
-    //   );
-    // }
     const result = yield product_model_1.Product.create(payload);
     return result;
 });
-// const getAllBooksFromDB = async (searchTerm?: string) => {
-//   const query: Record<string, unknown> = {};
-//   if (searchTerm) {
-//     const searchRegex = new RegExp(searchTerm, 'i'); // Case-insensitive search
-//     query.$or = [
-//       { title: searchRegex },
-//       { author: searchRegex },
-//       { category: searchRegex },
-//     ];
-//   }
-//   const result = await Product.find(query);
-//   return result;
-// };
-// get all Books data
 const getAllBooksFromDB = (query) => __awaiter(void 0, void 0, void 0, function* () {
     const productQuery = new QueryBuilder_1.default(product_model_1.Product.find(), query)
         .search(product_constant_1.productSearchableFields)

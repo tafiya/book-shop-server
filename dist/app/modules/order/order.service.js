@@ -22,15 +22,7 @@ const order_model_1 = __importDefault(require("./order.model"));
 const order_utils_1 = require("./order.utils");
 //order a book service
 const createOrder = (user, payload, client_ip) => __awaiter(void 0, void 0, void 0, function* () {
-    // const customer = await User.findOne(user.email);
-    // console.log('paylod', payload);
-    // if (!customer) {
-    //   throw new AppError(StatusCodes.NOT_FOUND, 'User not found');
-    // }
     var _a;
-    // if (customer.role === 'Admin') {
-    //   throw new AppError(StatusCodes.FORBIDDEN, 'Admins cannot place orders');
-    // }
     if (!((_a = payload === null || payload === void 0 ? void 0 : payload.products) === null || _a === void 0 ? void 0 : _a.length))
         throw new AppError_1.default(http_status_codes_1.StatusCodes.NOT_ACCEPTABLE, 'Order is not specified');
     const products = payload.products;

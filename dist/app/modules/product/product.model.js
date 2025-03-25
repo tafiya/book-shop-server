@@ -26,7 +26,7 @@ const productSchema = new mongoose_1.Schema({
     inStock: { type: Boolean, default: true },
     isDeleted: { type: Boolean, default: false },
 }, { timestamps: true });
-// middle ware for delate
+// middleware for delate
 // this middleware is used to hide the deleted data from showing main data
 productSchema.pre('find', function (next) {
     this.find({ isDeleted: { $ne: true } });
