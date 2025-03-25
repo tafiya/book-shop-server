@@ -25,7 +25,7 @@ const getAllBooks = catchAsync(async (req, res) => {
 //  Get a Specific Book
 const getSpecificBook = catchAsync(async (req, res) => {
   const { _id } = req.params;
-  console.log('from controller', req.params);
+
   const result = await productServices.getSpecificBookFromDB(_id);
   sendResponse(res, {
     message: 'Book fetched successfully',

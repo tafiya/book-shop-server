@@ -12,7 +12,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: 'https://book-shop-frontend-project.vercel.app', // Allow frontend origin
+    origin: ['https://book-shop-frontend-project.vercel.app', 'http://localhost:3000'],// Allow frontend origin
     credentials: true, // Allow cookies and credentials
   }),
 );

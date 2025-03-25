@@ -17,15 +17,6 @@ const createOrder = async (
   payload: { products: { product: string; quantity: number }[] },
   client_ip: string,
 ) => {
-  // const customer = await User.findOne(user.email);
-  // console.log('paylod', payload);
-  // if (!customer) {
-  //   throw new AppError(StatusCodes.NOT_FOUND, 'User not found');
-  // }
-
-  // if (customer.role === 'Admin') {
-  //   throw new AppError(StatusCodes.FORBIDDEN, 'Admins cannot place orders');
-  // }
   if (!payload?.products?.length)
     throw new AppError(StatusCodes.NOT_ACCEPTABLE, 'Order is not specified');
 

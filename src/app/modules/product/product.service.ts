@@ -5,37 +5,12 @@ import { productSearchableFields } from './product.constant';
 import { TProduct } from './product.interface';
 import { Product } from './product.model';
 
-// const createBookIntoDb = async (productData: TProduct) => {
-//   const product = new Product(productData);
-//   const result = await product.save();
-//   return result.toObject();
-// };
-const createBookIntoDb = async (payload: TProduct) => {
-  // const user = await User.isUserExistsByCustomId(userData.email);
-  // if (user.isBlocked) {
-  //   throw new AppError(
-  //     StatusCodes.UNAUTHORIZED,
-  //     'You are not authorized to create Book',
-  //   );
-  // }
 
-  const result = await Product.create(payload);
+const createBookIntoDb = async (payload: TProduct) => {
+ const result = await Product.create(payload);
   return result;
 };
-// const getAllBooksFromDB = async (searchTerm?: string) => {
-//   const query: Record<string, unknown> = {};
-//   if (searchTerm) {
-//     const searchRegex = new RegExp(searchTerm, 'i'); // Case-insensitive search
-//     query.$or = [
-//       { title: searchRegex },
-//       { author: searchRegex },
-//       { category: searchRegex },
-//     ];
-//   }
-//   const result = await Product.find(query);
-//   return result;
-// };
-// get all Books data
+
 const getAllBooksFromDB = async (query: Record<string, unknown>) => {
   const productQuery = new QueryBuilder(Product.find(), query)
     .search(productSearchableFields)

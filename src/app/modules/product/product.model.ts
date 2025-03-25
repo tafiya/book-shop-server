@@ -29,7 +29,7 @@ const productSchema = new Schema<TProduct>(
   { timestamps: true },
 );
 
-// middle ware for delate
+// middleware for delate
 // this middleware is used to hide the deleted data from showing main data
 productSchema.pre('find', function (next) {
   this.find({ isDeleted: { $ne: true } });
