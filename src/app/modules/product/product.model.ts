@@ -9,16 +9,6 @@ const productSchema = new Schema<TProduct>(
     category: {
       type: String,
       trim: true,
-      enum: {
-        values: [
-          'Fiction',
-          'Science',
-          'SelfDevelopment',
-          'Poetry',
-          'Religious',
-        ],
-        message: '{values} is not supported',
-      },
     },
     imgURL: { type: String, default: '' },
     description: { type: String, trim: true },

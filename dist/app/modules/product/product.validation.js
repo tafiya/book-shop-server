@@ -15,9 +15,7 @@ exports.createProductValidationSchema = zod_1.z.object({
         .min(1, { message: 'Author is required' })
         .max(30, { message: 'Author name cannot exceed 100 characters' }),
     price: zod_1.z.number().positive({ message: 'Price must be a positive number' }),
-    category: zod_1.z.enum(['Fiction', 'Science', 'SelfDevelopment', 'Poetry', 'Religious'], {
-        errorMap: () => ({ message: 'Invalid category provided' }),
-    }),
+    category: zod_1.z.string(),
     description: zod_1.z
         .string()
         .trim()

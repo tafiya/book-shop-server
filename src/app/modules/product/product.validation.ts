@@ -13,12 +13,7 @@ export const createProductValidationSchema = z.object({
     .min(1, { message: 'Author is required' })
     .max(30, { message: 'Author name cannot exceed 100 characters' }),
   price: z.number().positive({ message: 'Price must be a positive number' }),
-  category: z.enum(
-    ['Fiction', 'Science', 'SelfDevelopment', 'Poetry', 'Religious'],
-    {
-      errorMap: () => ({ message: 'Invalid category provided' }),
-    },
-  ),
+  category: z.string(),
   description: z
     .string()
     .trim()
